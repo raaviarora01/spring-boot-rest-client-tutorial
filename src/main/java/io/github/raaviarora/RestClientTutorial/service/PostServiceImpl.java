@@ -1,5 +1,6 @@
 package io.github.raaviarora.RestClientTutorial.service;
 
+import ch.qos.logback.classic.spi.PackagingDataCalculator;
 import io.github.raaviarora.RestClientTutorial.model.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,4 +23,14 @@ public class PostServiceImpl implements PostService{
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<Post>>() {});
     }
+
+    @Override
+    public Post getPostById(Integer id) {
+        return restClient.get()
+                .uri("/posts/{id}", id)
+                .retrieve()
+                .body(new ParameterizedTypeReference<Post>() {});
+    }
+
+
 }

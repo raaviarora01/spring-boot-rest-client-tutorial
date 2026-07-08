@@ -25,4 +25,10 @@ class RestClientTutorialApplicationTests {
         System.out.println(list);
     }
 
+    @Test
+    void getPostById(){
+        Post p = postService.getPostById(1);
+        System.out.println(p);
+    }
+
 }

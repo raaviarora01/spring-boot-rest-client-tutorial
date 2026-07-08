@@ -3,6 +3,7 @@ package io.github.raaviarora.RestClientTutorial.controller;
 import io.github.raaviarora.RestClientTutorial.model.Post;
 import io.github.raaviarora.RestClientTutorial.service.PostService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,5 +20,10 @@ public class PostController {
     @GetMapping("/posts")
     public List<Post> getPosts() {
         return postService.getAllPosts();
+    }
+
+    @GetMapping("/posts/{id}")
+    public Post getPostById(@PathVariable Integer id){
+        return postService.getPostById(id);
     }
 }
