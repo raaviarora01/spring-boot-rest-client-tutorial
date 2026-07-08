@@ -32,5 +32,14 @@ public class PostServiceImpl implements PostService{
                 .body(new ParameterizedTypeReference<Post>() {});
     }
 
+    @Override
+    public Post createPost(Post post) {
+        return restClient.post()
+                .uri("/posts")
+                .body(post)
+                .retrieve()
+                .body(Post.class);
+    }
+
 
 }

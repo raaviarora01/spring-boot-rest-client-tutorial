@@ -31,4 +31,14 @@ class RestClientTutorialApplicationTests {
         System.out.println(p);
     }
 
+    @Test
+    void createPost(){
+        Post post = new Post();
+        post.setUserId(1);
+        post.setTitle("Spring RestClient");
+        post.setBody("Learning RestClient");
+        Post createdPost = postService.createPost(post);
+        System.out.println(createdPost);
+    }
+
 }
