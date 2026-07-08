@@ -11,4 +11,8 @@ public interface PostService {
     Post getPostById(Integer id);
 
     Post createPost(Post post);
+
+    Post updatePost(Integer id, Post post);
+
+
 }

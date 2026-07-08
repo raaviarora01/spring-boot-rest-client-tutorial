@@ -29,13 +29,22 @@ public class PostServiceImpl implements PostService{
         return restClient.get()
                 .uri("/posts/{id}", id)
                 .retrieve()
-                .body(new ParameterizedTypeReference<Post>() {});
+                .body(Post.class);
     }
 
     @Override
     public Post createPost(Post post) {
         return restClient.post()
                 .uri("/posts")
+                .body(post)
+                .retrieve()
+                .body(Post.class);
+    }
+
+    @Override
+    public Post updatePost(Integer id, Post post) {
+        return restClient.put()
+                .uri("/posts/{id}", id)
                 .body(post)
                 .retrieve()
                 .body(Post.class);

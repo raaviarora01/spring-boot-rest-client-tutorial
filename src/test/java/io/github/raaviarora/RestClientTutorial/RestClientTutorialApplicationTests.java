@@ -41,4 +41,14 @@ class RestClientTutorialApplicationTests {
         System.out.println(createdPost);
     }
 
+    @Test
+    void updatePost(){
+        Post post = new Post();
+        post.setUserId(1);
+        post.setTitle("Updated Title");
+        post.setBody("Updated Body");
+        Post updatedPost = postService.updatePost(1, post);
+        System.out.println(updatedPost);
+    }
+
 }
