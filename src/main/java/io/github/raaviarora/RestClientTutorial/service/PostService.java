@@ -4,6 +4,8 @@ import io.github.raaviarora.RestClientTutorial.model.Post;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public interface PostService {
     List<Post> getAllPosts();
@@ -14,5 +16,5 @@ public interface PostService {
 
     Post updatePost(Integer id, Post post);
 
-
+    Post patchPost(Integer id, Map<String, Object> updates);
 }

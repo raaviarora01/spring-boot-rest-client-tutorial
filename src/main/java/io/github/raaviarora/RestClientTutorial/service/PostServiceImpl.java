@@ -9,6 +9,7 @@ import org.springframework.web.client.RestClient;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +47,15 @@ public class PostServiceImpl implements PostService{
         return restClient.put()
                 .uri("/posts/{id}", id)
                 .body(post)
+                .retrieve()
+                .body(Post.class);
+    }
+
+    @Override
+    public Post patchPost(Integer id, Map<String, Object> updates) {
+        return restClient.patch()
+                .uri("/posts/{id}", id)
+                .body(updates)
                 .retrieve()
                 .body(Post.class);
     }

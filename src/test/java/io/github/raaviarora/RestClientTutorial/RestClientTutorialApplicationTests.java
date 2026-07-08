@@ -7,7 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @SpringBootTest
 class RestClientTutorialApplicationTests {
@@ -49,6 +52,14 @@ class RestClientTutorialApplicationTests {
         post.setBody("Updated Body");
         Post updatedPost = postService.updatePost(1, post);
         System.out.println(updatedPost);
+    }
+
+    @Test
+    void patchPost(){
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("title", "Patched title");
+        Post patchedPost =  postService.patchPost(1, updates);
+        System.out.println(patchedPost);
     }
 
 }

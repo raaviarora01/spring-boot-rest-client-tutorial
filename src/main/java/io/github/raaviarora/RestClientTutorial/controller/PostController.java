@@ -5,6 +5,7 @@ import io.github.raaviarora.RestClientTutorial.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PostController {
@@ -33,5 +34,10 @@ public class PostController {
     @PutMapping("/posts/{id}")
     public Post updatePost(@PathVariable Integer id, @RequestBody Post post){
         return postService.updatePost(id, post);
+    }
+
+    @PatchMapping("/posts/{id}")
+    public Post patchPost(@PathVariable Integer id, @RequestBody Map<String, Object> updates){
+        return postService.patchPost(id, updates);
     }
 }
