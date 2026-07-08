@@ -62,4 +62,10 @@ class RestClientTutorialApplicationTests {
         System.out.println(patchedPost);
     }
 
+    @Test
+    void deletePost(){
+        postService.deletePost(1);
+        System.out.println("Post Deleted successfully");
+    }
+
 }

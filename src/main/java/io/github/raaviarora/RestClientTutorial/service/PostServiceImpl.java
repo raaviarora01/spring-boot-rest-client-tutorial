@@ -60,5 +60,13 @@ public class PostServiceImpl implements PostService{
                 .body(Post.class);
     }
 
+    @Override
+    public void deletePost(Integer id) {
+        restClient.delete()
+                .uri("/posts/{id}", id)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
 
 }

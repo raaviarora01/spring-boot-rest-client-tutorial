@@ -17,4 +17,6 @@ public interface PostService {
     Post updatePost(Integer id, Post post);
 
     Post patchPost(Integer id, Map<String, Object> updates);
+
+    void deletePost(Integer id);
 }

@@ -40,4 +40,9 @@ public class PostController {
     public Post patchPost(@PathVariable Integer id, @RequestBody Map<String, Object> updates){
         return postService.patchPost(id, updates);
     }
+
+    @DeleteMapping("/posts/{id}")
+    public void deletePost(@PathVariable Integer id){
+        postService.deletePost(id);
+    }
 }
