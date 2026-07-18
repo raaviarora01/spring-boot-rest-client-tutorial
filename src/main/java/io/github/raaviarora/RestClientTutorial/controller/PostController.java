@@ -23,6 +23,11 @@ public class PostController {
         return ResponseEntity.ok(postService.getAllPosts());
     }
 
+    @GetMapping("/posts/filter")
+    public ResponseEntity<List<Post>> getPostsByUserId(@RequestParam Integer userId){
+        return ResponseEntity.ok(postService.getPostsByUserId(userId));
+    }
+
     @GetMapping("/posts/{id}")
     public ResponseEntity<Post> getPostById(@PathVariable Integer id){
         return ResponseEntity.ok(postService.getPostById(id));

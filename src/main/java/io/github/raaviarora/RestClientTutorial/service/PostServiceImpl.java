@@ -33,6 +33,21 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public List<Post> getPostsByUserId(Integer id) {
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/posts")
+                        .queryParam("userId", id)
+                        .build())
+                .retrieve()
+                .onStatus(
+                        HttpStatusCode::isError,
+                        RestClientErrorHandler::handle
+                )
+                .body(new ParameterizedTypeReference<List<Post>>() {});
+    }
+
+    @Override
     public Post getPostById(Integer id) {
         return restClient.get()
                 .uri("/posts/{id}", id)

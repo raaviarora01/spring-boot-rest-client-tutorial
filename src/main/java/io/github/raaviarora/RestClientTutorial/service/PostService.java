@@ -11,6 +11,8 @@ import java.util.Objects;
 public interface PostService {
     List<Post> getAllPosts();
 
+    List<Post> getPostsByUserId(Integer id);
+
     Post getPostById(Integer id);
 
     Post createPost(Post post);
