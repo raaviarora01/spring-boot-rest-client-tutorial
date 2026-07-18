@@ -1,5 +1,7 @@
 package io.github.raaviarora.RestClientTutorial.service;
 
+import io.github.raaviarora.RestClientTutorial.exception.ExternalServiceException;
+import io.github.raaviarora.RestClientTutorial.exception.ResourceNotFoundException;
 import io.github.raaviarora.RestClientTutorial.model.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -29,6 +31,20 @@ public class PostServiceImpl implements PostService{
         return restClient.get()
                 .uri("/posts/{id}", id)
                 .retrieve()
+                .onStatus(
+                    status -> status.value() == 404,
+                    (request, response) -> {
+                        throw new ResourceNotFoundException(
+                                "Post with id " + id + " not found"
+                        );
+                    })
+                .onStatus(
+                        status -> status.is5xxServerError(),
+                        (request, response) -> {
+                            throw new ExternalServiceException(
+                                    "External API is currently unavailable"
+                            );
+                        })
                 .body(Post.class);
     }
 
