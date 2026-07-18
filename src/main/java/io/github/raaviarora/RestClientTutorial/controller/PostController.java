@@ -2,6 +2,8 @@ package io.github.raaviarora.RestClientTutorial.controller;
 
 import io.github.raaviarora.RestClientTutorial.model.Post;
 import io.github.raaviarora.RestClientTutorial.service.PostService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,32 +19,34 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public List<Post> getPosts() {
-        return postService.getAllPosts();
+    public ResponseEntity<List<Post>> getPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
     }
 
     @GetMapping("/posts/{id}")
-    public Post getPostById(@PathVariable Integer id){
-        return postService.getPostById(id);
+    public ResponseEntity<Post> getPostById(@PathVariable Integer id){
+        return ResponseEntity.ok(postService.getPostById(id));
     }
 
     @PostMapping("/posts")
-    public Post createPost(@RequestBody Post post){
-        return postService.createPost(post);
+    public ResponseEntity<Post> createPost(@RequestBody Post post){
+        Post createdPost = postService.createPost(post);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
 
     @PutMapping("/posts/{id}")
-    public Post updatePost(@PathVariable Integer id, @RequestBody Post post){
-        return postService.updatePost(id, post);
+    public ResponseEntity<Post> updatePost(@PathVariable Integer id, @RequestBody Post post){
+        return ResponseEntity.ok(postService.updatePost(id, post));
     }
 
     @PatchMapping("/posts/{id}")
-    public Post patchPost(@PathVariable Integer id, @RequestBody Map<String, Object> updates){
-        return postService.patchPost(id, updates);
+    public ResponseEntity<Post> patchPost(@PathVariable Integer id, @RequestBody Map<String, Object> updates){
+        return ResponseEntity.ok(postService.patchPost(id, updates));
     }
 
     @DeleteMapping("/posts/{id}")
-    public void deletePost(@PathVariable Integer id){
+    public ResponseEntity<Void> deletePost(@PathVariable Integer id){
         postService.deletePost(id);
+        return ResponseEntity.noContent().build();
     }
 }

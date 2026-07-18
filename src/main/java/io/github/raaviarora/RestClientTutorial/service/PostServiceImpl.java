@@ -1,13 +1,12 @@
 package io.github.raaviarora.RestClientTutorial.service;
 
-import ch.qos.logback.classic.spi.PackagingDataCalculator;
 import io.github.raaviarora.RestClientTutorial.model.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
