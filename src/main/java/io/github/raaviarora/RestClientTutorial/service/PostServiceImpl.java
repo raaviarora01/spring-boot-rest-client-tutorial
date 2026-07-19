@@ -4,6 +4,8 @@ import io.github.raaviarora.RestClientTutorial.exception.ExternalServiceExceptio
 import io.github.raaviarora.RestClientTutorial.exception.ResourceNotFoundException;
 import io.github.raaviarora.RestClientTutorial.handler.RestClientErrorHandler;
 import io.github.raaviarora.RestClientTutorial.model.Post;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
@@ -13,11 +15,14 @@ import org.springframework.web.client.RestClient;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService{
 
+    private final Validator validator;
     private final RestClient restClient;
 
     @Override
@@ -49,7 +54,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public Post getPostById(Integer id) {
-        return restClient.get()
+        Post post = restClient.get()
                 .uri("/posts/{id}", id)
                 .retrieve()
                 .onStatus(
@@ -57,11 +62,14 @@ public class PostServiceImpl implements PostService{
                         RestClientErrorHandler::handle
                 )
                 .body(Post.class);
+
+        validateResponse(post);
+        return post;
     }
 
     @Override
     public Post createPost(Post post) {
-        return restClient.post()
+        Post createdPost = restClient.post()
                 .uri("/posts")
                 .body(post)
                 .retrieve()
@@ -70,11 +78,14 @@ public class PostServiceImpl implements PostService{
                         RestClientErrorHandler::handle
                 )
                 .body(Post.class);
+
+        validateResponse(createdPost);
+        return createdPost;
     }
 
     @Override
     public Post updatePost(Integer id, Post post) {
-        return restClient.put()
+        Post updatedPost = restClient.put()
                 .uri("/posts/{id}", id)
                 .body(post)
                 .retrieve()
@@ -83,11 +94,14 @@ public class PostServiceImpl implements PostService{
                         RestClientErrorHandler::handle
                 )
                 .body(Post.class);
+
+        validateResponse(updatedPost);
+        return updatedPost;
     }
 
     @Override
     public Post patchPost(Integer id, Map<String, Object> updates) {
-        return restClient.patch()
+        Post updatedPost = restClient.patch()
                 .uri("/posts/{id}", id)
                 .body(updates)
                 .retrieve()
@@ -96,6 +110,9 @@ public class PostServiceImpl implements PostService{
                         RestClientErrorHandler::handle
                 )
                 .body(Post.class);
+
+        validateResponse(updatedPost);
+        return updatedPost;
     }
 
     @Override
@@ -110,5 +127,16 @@ public class PostServiceImpl implements PostService{
                 .toBodilessEntity();
     }
 
+    public void validateResponse(Post post){
+        Set<ConstraintViolation<Post>> violations = validator.validate(post);
+
+        if(!violations.isEmpty()){
+            String meaasge = violations.stream()
+                    .map(ConstraintViolation::getMessage)
+                    .collect(Collectors.joining(", "));
+
+            throw new ExternalServiceException(meaasge);
+        }
+    }
 
 }
