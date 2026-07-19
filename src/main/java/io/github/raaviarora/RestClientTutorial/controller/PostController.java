@@ -2,6 +2,8 @@ package io.github.raaviarora.RestClientTutorial.controller;
 
 import io.github.raaviarora.RestClientTutorial.model.Post;
 import io.github.raaviarora.RestClientTutorial.service.PostService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,18 +36,18 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<Post> createPost(@RequestBody Post post){
+    public ResponseEntity<Post> createPost(@Valid @RequestBody Post post){
         Post createdPost = postService.createPost(post);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
 
     @PutMapping("/posts/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable Integer id, @RequestBody Post post){
+    public ResponseEntity<Post> updatePost(@PathVariable Integer id, @Valid @RequestBody Post post){
         return ResponseEntity.ok(postService.updatePost(id, post));
     }
 
     @PatchMapping("/posts/{id}")
-    public ResponseEntity<Post> patchPost(@PathVariable Integer id, @RequestBody Map<String, Object> updates){
+    public ResponseEntity<Post> patchPost(@PathVariable Integer id, @Valid @RequestBody Map<String, Object> updates){
         return ResponseEntity.ok(postService.patchPost(id, updates));
     }
 

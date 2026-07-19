@@ -2,6 +2,7 @@ package io.github.raaviarora.RestClientTutorial.interceptor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -16,10 +17,17 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
 
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.putAll(request.getHeaders());
+
+        if(httpHeaders.containsHeader(HttpHeaders.AUTHORIZATION)) {
+            httpHeaders.set(HttpHeaders.AUTHORIZATION, "Bearer *******");
+        }
+
         logger.info("Outgoing request");
         logger.info("Method : {}", request.getMethod());
         logger.info("URL : {}", request.getURI());
-        logger.info("Headers : {}", request.getHeaders());
+        logger.info("Headers : {}", httpHeaders);
 
         if(body.length > 0){
             logger.info("Body : {}", new String(body));
